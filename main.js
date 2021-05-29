@@ -140,10 +140,11 @@ function createProductHistory(product) {
 
         var r = confirm("Are you sure to restore this product!\nEither OK or Cancel.\n");
         if (r == true) {
-            for (var i = 0; i < products.length; i++) {
+            for (var i = 0; i < productsHistory.length; i++) {
                 if (productsHistory[i].name === product.name) {
                     productsHistory.splice(i, 1)
                     products.push(product)
+                    console.log("I am in restore click funct")
                     setMyStockage();
                     renderProductsHistory()
                     return;
@@ -301,6 +302,7 @@ function searchProducts() {
     $("#history").hide()
     $("#productsTable").html("")
     $("#client").hide()
+    $("#about").hide()
     //    getMyStockage();
     if (filteredProducts.length === 0) {
         document.getElementById("home1").style.backgroundImage = "url('imgs/IMS.jpg')";
@@ -328,7 +330,7 @@ function searchProductsHistory() {
     $("#history").show()
     $("#productsTableHistory").html("")
     $("#client").hide()
-
+    $("#about").hide()
     //    getMyStockage();
     if (filteredProducts.length === 0) {
         document.getElementById("home2").style.backgroundImage = "url('imgs/IMS.jpg')";
@@ -403,6 +405,7 @@ function displayAbout() {
     $("#main").hide()
     $("#history").hide()
     $("#about").show()
+    $("#client").hide()
 }
 function createProductClient(product) {
 console.log("I am in create product for client,", product)
