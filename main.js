@@ -456,6 +456,17 @@ function renderProductsClient() {
 
     $("#productsTableClient").show();
 }
-initializeLocalStorage();
 
+
+    function checkUserPassword(){
+        console.log("val of username",$("#userName").val())
+        if($("#userName").val()==="hana" && $("#password").val()==="25061988"){
+            document.getElementById('id03').style.display = "none"
+        }
+    }
+
+initializeLocalStorage();
+document.getElementById('id03').style.display = "block"
 renderProducts()
+
+
