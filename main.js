@@ -408,13 +408,13 @@ function displayAbout() {
     $("#client").hide()
 }
 function createProductClient(product) {
-console.log("I am in create product for client,", product)
+    console.log("I am in create product for client,", product)
     $("#productsTableClient").append('<tr id=' + "row" + counter + ' class ="row"></tr>')
     $("#row" + counter).append('<td class="idspace">' + Number(products.indexOf(product) + 1) + '</td>')
     $("#row" + counter).append('<td class="namespace">' + product.name + '</td>')
-    
+
     $("#row" + counter).append('<td style="background-color: #04aa6d;"><button id=btninfo' + counter + ' class="btn grnbtn" ><i class="fa fa-info"></i></button></tr>')
-    
+
 
 
 
@@ -435,13 +435,13 @@ console.log("I am in create product for client,", product)
     counter++;
 }
 function renderProductsClient() {
-   
+
     $("#client").show()
     $("#main").hide()
     $("#productsTableClient").html("")
     $("#history").hide()
     $("#about").hide()
-    
+
 
     $("#searchProduct").hide()
     $("#searchProductHistory").hide()
