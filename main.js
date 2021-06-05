@@ -461,12 +461,13 @@ function renderProductsClient() {
     function checkUserPassword(){
         console.log("val of username",$("#userName").val())
         if($("#userName").val()==="hana" && $("#password").val()==="25061988"){
-            document.getElementById('id03').style.display = "none"
+            // document.getElementById('id03').style.display = "none"
+            console.log("I am connected")
         }
     }
 
 initializeLocalStorage();
-document.getElementById('id03').style.display = "block"
+// document.getElementById('id03').style.display = "block"
 renderProducts()
 
 
