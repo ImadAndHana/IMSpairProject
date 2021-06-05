@@ -133,9 +133,24 @@ function createProductHistory(product) {
 
     $("#row" + counter).append('<td style="background-color: #04aa6d;"><button id=btninfo' + counter + ' class="btn" ><i class="fa fa-info"></i></button></tr>')
     $("#row" + counter).append('<td style="background-color: #04aa6d;"><button id=btnrestore' + counter + ' class="btn restore" ><i class="fa fa-refresh"></i></button></tr>')
+	$("#row" + counter).append('<td style="background-color: #9A0000;"><button id=btndelete' + counter + ' class="btn delete redbtn" ><i class="fa fa-trash"></i></button></tr>')
 
 
-
+$("#btndelete" + counter).click(function () {
+        console.log("I am in delete")
+        var r = confirm("Are you sure to delete this product!\nEither OK or Cancel.\n");
+        if (r == true) {
+            for (var i = 0; i < productsHistory.length; i++) {
+                if (productsHistory[i].name === product.name) {
+                    productsHistory.splice(i, 1)
+                   
+                    console.log(product)
+                    setMyStockage();
+                    renderProductsHistory();
+                }
+            }
+        }
+    })
     $("#btnrestore" + counter).click(function () {
 
         var r = confirm("Are you sure to restore this product!\nEither OK or Cancel.\n");
@@ -458,13 +473,13 @@ function renderProductsClient() {
 }
 
 
-    function checkUserPassword(){
-        console.log("val of username",$("#userName").val())
-        if($("#userName").val()==="hana" && $("#password").val()==="25061988"){
-            // document.getElementById('id03').style.display = "none"
-            console.log("I am connected")
-        }
-    }
+    // function checkUserPassword(){
+    //     console.log("val of username",$("#userName").val())
+    //     if($("#userName").val()==="hana" && $("#password").val()==="25061988"){
+    //         // document.getElementById('id03').style.display = "none"
+    //         console.log("I am connected")
+    //     }
+    // }
 
 initializeLocalStorage();
 // document.getElementById('id03').style.display = "block"
