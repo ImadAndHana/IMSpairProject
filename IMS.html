@@ -17,12 +17,15 @@
   <link rel="stylesheet" href="style.css" />
   <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
     crossorigin="anonymous"></script>
+    <script
+src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
+</script>
   <title>IMS</title>
 </head>
 
 <body>
   <div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display: none" id="mySidebar">
-    <button id="aboutus" class="w3-bar-item w3-button w3-large" onclick="w3_close()">
+    <button id="aboutus" class="w3-bar-item w3-button w3-large" onclick="close()">
       Close &times;
     </button>
     <a href="javascript:home()" class="w3-bar-item w3-button"><i class="fa fa-home"></i>Home</a>
@@ -39,7 +42,7 @@
       <input class="searchfor" id="searchProduct" type="text" placeholder="Search.." onclick="searchProducts()" />
     </div>
     <!-- <div class="w3-container"></div> -->
-    <button id="openNav" class="w3-button w3-teal w3-xlarge" onclick="w3_open()">
+    <button id="openNav" class="w3-button w3-teal w3-xlarge" onclick="open()">
       &#9776;
     </button>
   </div>
@@ -125,24 +128,27 @@
 
   <div id="id02" class="modal">
     <form class="modal-content animate">
-      <!--         <div class="container">
+              <div class="container">
         <span
         onclick="document.getElementById('id02').style.display='none'"
         class="close"
         title="Close Modal"
         >&times;
       </span>
-    </div> -->
+    </div>
 
 
       <div class="container">
-        <span onclick="document.getElementById('id02').style.display='none'" class="close">&times;</span>
+        <!-- <span onclick="document.getElementById('id02').style.display='none'" class="close">&times;</span> -->
 
         <p id="productNameLabel"><b></b></p>
         <p id="productDescriptionLabel"></p>
         <p id="productQuantityLabel"></p>
         <p id="productSupplierLabel"></p>
         <p id="productPriceLabel"></p>
+        <button  type="button"  class="cancelbtn" onclick="document.getElementById('id02').style.display='none'">
+          Close
+        </button>
       </div>
     </form>
   </div>
@@ -161,34 +167,56 @@
 
     </form>
   </div>
- <!--  <div id="id03" class="modal">
-  
-    <form class="modal-content animate" >
-      <div class="imgcontainer">
-         <span onclick="document.getElementById('id03').style.display='none'" class="close" title="Close Modal">&times;</span> -->
-        <!-- <img src="img_avatar2.png" alt="Avatar" class="avatar"> -->
-      <!-- </div>
-  
-      <div class="container">
-        <label for="uname"><b>Username</b></label>
-        <input id="userName" type="text" placeholder="Enter Username" name="uname" required>
-  
-        <label for="psw"><b>Password</b></label>
-        <input id="password" type="password" placeholder="Enter Password" name="psw" required>
-          
-        <button id="login" type="submit" onclick="checkUserPassword()">Login</button>
-         <label>
-          <input type="checkbox" checked="checked" name="remember"> Remember me
-        </label> 
-      </div> -->
-  
-      <!-- <div class="container" style="background-color:#f1f1f1">
-        <button type="button" onclick="" class="cancelbtn">Cancel</button> 
-         <span class="psw">Forgot <a href="#">password?</a></span>
-      </div> 
+  <div id="id04" class="modal">
+    <form class="modal-content animate">
+      <div class="imgcontainer"></div>
+      <div class="container1">
+        <span onclick="document.getElementById('id04').style.display='none'" class="close" 
+           title="Close Modal">&times;</span> 
+
+
+
+        <label  id="idProduct"></label>
+        <label><b>Product Name</b></label>
+        <input class="addinginputs" id="nameProductUpdate" type="text" placeholder="Enter product name" required />
+
+        <label><b>Description</b></label>
+        <input class="addinginputs" id="descriptionProductUpdate" type="text" placeholder="Enter description of product" n
+          required />
+
+        <label><b>Quantity</b></label>
+        <input class="addinginputs" id="quantityProductUpdate" type="number" placeholder="Enter quantity" required />
+
+        <label><b>Supplier</b></label>
+        <input class="addinginputs" id="supplierUpdate" type="text" placeholder="Enter supplier company name" required />
+
+        <label><b>Price</b></label>
+        <input class="addinginputs" id="priceProductUpdate" type="number" placeholder="Enter total price" required />
+        <button  type="button" id="update" class="cancelbtn">
+          Confirm
+        </button>
+      </div>
     </form>
-  </div> -->
+  </div>
+  
+  <div id="id05" class="modal">
+    <form class="modal-content animate">
+      <!-- <div class="imgcontainer"></div> -->
+      <div class="container1">
+        <span onclick="document.getElementById('id05').style.display='none'" class="close"
+          title="Close Modal">&times;</span>
+          <div id="chart" >
+
+          </div>
+          
+        <button  type="button" id="closeChart" class="cancelbtn" onclick="document.getElementById('id05').style.display='none'">
+          Close
+        </button>
+      </div>
+    </form>
+  </div>
   <script src="main.js"></script>
+  
 </body>
 
 </html>

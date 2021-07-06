@@ -5,8 +5,9 @@ var products = [
         description: "sicam",
         quantity: 500,
         supplier: "sicam company",
-        price: 2500000
-    },
+        price: 2500000,
+        track:[{x:"2021-6-8,9:40",y:500}]
+    }
     // {
     //     name: "orange juice",
     //     description: "delice",
@@ -42,19 +43,30 @@ function createProduct(product) {
     $("#productsTable").append('<tr id=' + "row" + counter + ' class ="row"></tr>')
     $("#row" + counter).append('<td class="idspace">' + Number(products.indexOf(product) + 1) + '</td>')
     $("#row" + counter).append('<td class="namespace">' + product.name + '</td>')
-    $("#row" + counter).append('<td style="background-color: #04aa6d;"><button id=btnupdate' + counter + ' class="btn" onclick=document.getElementById("id01").style.display="block" ><i class="fa fa-edit"></i></button></tr>')
+    
+    $("#row" + counter).append('<td style="background-color: #04aa6d;"><button id=btnChart' + counter + ' class="btn"  ><i class="fa fa-bar-chart" ></i></button></tr>')
+    $("#row" + counter).append('<td style="background-color: #04aa6d;"><button id=btnupdate' + counter + ' class="btn" onclick=document.getElementById("id04").style.display="block" ><i class="fa fa-edit"></i></button></tr>')
     $("#row" + counter).append('<td style="background-color: #04aa6d;"><button id=btninfo' + counter + ' class="btn grnbtn" ><i class="fa fa-info"></i></button></tr>')
     $("#row" + counter).append('<td style="background-color: #9A0000;"><button id=btndelete' + counter + ' class="btn delete redbtn" ><i class="fa fa-trash"></i></button></tr>')
 
 
-
-
+    $("#btnChart" + counter).click(function () {
+        $("#chart").html('');
+        document.getElementById("id05").style.display = "block"
+        $("#chart").append('<canvas id="myChart"'+counter+' style="width:100%;max-width:700px"></canvas>')
+        
+        drawGraph(product);
+    })
+    drawGraph(product)
     $("#btndelete" + counter).click(function () {
         console.log("I am in delete")
         var r = confirm("Are you sure to delete this product!\nEither OK or Cancel.\n");
         if (r == true) {
             for (var i = 0; i < products.length; i++) {
                 if (products[i].name === product.name) {
+                    var day=new Date()
+                    var today=day.getFullYear()+'-'+(day.getMonth()+1)+'-'+day.getDate()+","+day.getHours() + ":" + day.getMinutes() + ":" + day.getSeconds
+                    product['track'].push({x:today,y:0})
                     products.splice(i, 1)
                     productsHistory.push(product)
                     console.log(product)
@@ -69,17 +81,18 @@ function createProduct(product) {
     ///fixing error that is invoked twice at 15:06
     $("#btnupdate" + counter).click(function () {
 
-        products.splice(products.indexOf(product), 1)
+        // products.splice(products.indexOf(product), 1)
         setMyStockage()
 
-
-        $("#nameProduct").val(product["name"])
-        $("#descriptionProduct").val(product["description"])
+        $("#idProduct").html(Number(products.indexOf(product) + 1))
+        $("#nameProductUpdate").val(product["name"])
+        $("#descriptionProductUpdate").val(product["description"])
         console.log(product["quantity"])
-        $("#quantityProduct").val(product["quantity"])
-        $("#supplier").val(product['supplier'])
-        $("#priceProduct").val(product['price'])
+        $("#quantityProductUpdate").val(product["quantity"])
+        $("#supplierUpdate").val(product['supplier'])
+        $("#priceProductUpdate").val(product['price'])
     });
+    
     ///for display a product at 15:37
     $('#btninfo' + counter).click(function () {
         console.log("ia m product", product)
@@ -95,6 +108,33 @@ function createProduct(product) {
     counter++;
 }
 
+$("#update" ).click(function () {
+    // event.preventDefault();
+     var product = {}
+    var index=Number($("#idProduct").html())-1
+    product["name"] = $("#nameProductUpdate").val()
+    product["description"] = $("#descriptionProductUpdate").val()
+    product['quantity'] = $("#quantityProductUpdate").val()
+    product['supplier'] = $("#supplierUpdate").val()
+    product['price'] = $("#priceProductUpdate").val()
+    var day=new Date()
+    var today=day.getFullYear()+'-'+(day.getMonth()+1)+'-'+day.getDate()+","+day.getHours() + ":" + day.getMinutes() + ":" + day.getSeconds()
+    console.log("today", today)
+    product['track']=products[index].track
+    product['track'].push({x:today,y:Number(product['quantity'])})
+    console.log("iam in update after push of track",product['track'])
+    products[index]=product;
+    
+    document.getElementById("id04").style.display = "none";
+    $("#nameProduct").val("")
+    $("#descriptionProduct").val("")
+    $("#quantityProduct").val("")
+    $("#supplier").val("")
+    $("#priceProduct").val("")
+    setMyStockage();
+    renderProducts();
+    return;
+});
 /////show the history at 21:38
 // function showHistory() {
 //     $("#main").hide()
@@ -158,6 +198,9 @@ $("#btndelete" + counter).click(function () {
             for (var i = 0; i < productsHistory.length; i++) {
                 if (productsHistory[i].name === product.name) {
                     productsHistory.splice(i, 1)
+                    var day=new Date()
+                    var today=day.getFullYear()+'-'+(day.getMonth()+1)+'-'+day.getDate()+","+day.getHours() + ":" + day.getMinutes() + ":" + day.getSeconds()
+                    product['track'].push({x:today,y:number(product['quantity'])})
                     products.push(product)
                     console.log("I am in restore click funct")
                     setMyStockage();
@@ -240,9 +283,13 @@ function addButton(event) {
     product['quantity'] = $("#quantityProduct").val()
     product['supplier'] = $("#supplier").val()
     product['price'] = $("#priceProduct").val()
-    console.log("before add", products)
+    var day=new Date()
+    var today=day.getFullYear()+'-'+(day.getMonth()+1)+'-'+day.getDate()+","+day.getHours() + ":" + day.getMinutes() + ":" + day.getSeconds()
+    console.log("today", today,product['quantity'])
+    product['track']=[]
+    product['track'].push({x:today,y:Number(product['quantity'])})
     products.push(product);
-    console.log("it is added", products)
+    
     document.getElementById("id01").style.display = "none";
     $("#nameProduct").val("")
     $("#descriptionProduct").val("")
@@ -254,7 +301,8 @@ function addButton(event) {
     return;
 }
 
-function w3_open() {
+
+function open() {
     document.getElementById("main").style.marginLeft = "25%";
     document.getElementById("history").style.marginLeft = "25%";
     document.getElementById("about").style.marginLeft = "25%";
@@ -263,7 +311,7 @@ function w3_open() {
     document.getElementById("mySidebar").style.display = "block";
     document.getElementById("openNav").style.display = 'none';
 }
-function w3_close() {
+function close() {
     document.getElementById("main").style.marginLeft = "0%";
     document.getElementById("history").style.marginLeft = "0%";
     document.getElementById("about").style.marginLeft = "0%";
@@ -355,32 +403,7 @@ function searchProductsHistory() {
     }
 
     $("#productsTableHistory").show();
-    //
-    // function searchProductsHistory(){
-
-    //     var filteredProducts=[]
-    //     filteredProducts= filter(productsHistory,function(object){
-    //         if(object.name.toLowerCase().includes(document.getElementById("searchProductHistory").value.toLowerCase()))
-
-    //        return object})
-    //        console.log("I am in history search function filtered=",filteredProducts)
-
-
-
-    //        $("#main").hide()
-    //        $("#history").show()
-    //        $("#productsTableHistory").html("")
-
-    //     //    getMyStockage();
-    //        if (filteredProducts.length === 0) {
-    //            document.getElementById("home").style.backgroundImage = "url('imgs/empty-box1.png')";
-    //        } else { document.getElementById("home").style.backgroundImage = ""; }
-    //        for (var i = 0; i < filteredProducts.length; i++) {
-    //         createProductHistory(filteredProducts[i]);
-    //        }
-
-    //        $("#productsTableHistory").show();
-    //
+   
 }
 // Get the input field
 var input = document.getElementById("searchProduct");
@@ -407,14 +430,7 @@ inputHistory.addEventListener("keyup", function (event) {
         // Trigger the button element with a click
         searchProductsHistory()
     }
-    // inputHistory.addEventListener("keyup", function(event) {
-    //   // Number 13 is the "Enter" key on the keyboard
-    //   if (event.keyCode === 13) {
-    //     // Cancel the default action, if needed
-    //     event.preventDefault();
-    //     // Trigger the button element with a click
-    //     searchProductsHistory()
-    //   }
+    
 });
 function displayAbout() {
     $("#main").hide()
@@ -473,16 +489,44 @@ function renderProductsClient() {
 }
 
 
-    // function checkUserPassword(){
-    //     console.log("val of username",$("#userName").val())
-    //     if($("#userName").val()==="hana" && $("#password").val()==="25061988"){
-    //         // document.getElementById('id03').style.display = "none"
-    //         console.log("I am connected")
-    //     }
-    // }
+    
 
-initializeLocalStorage();
-// document.getElementById('id03').style.display = "block"
-renderProducts()
+
+function drawGraph(product){
+    var xyValues =  product['track']
+var L=[]
+var d=[]
+// var barColors = ["red", "green","blue","orange","brown"];
+for(var i=0;i<xyValues.length;i++){
+    L.push(xyValues[i]['x'])
+    d.push(xyValues[i]['y'])
+}
+
+console.log("xvalues=",L)
+console.log("yvalues=",d) 
+    new Chart("myChart", {
+        type: "bar",
+        data: {
+            labels:L ,
+        datasets: [{
+            // backgroundColor: barColors,
+            data: d
+        }]
+        },
+       
+    });
+}
+// initializeLocalStorage();
+
+
+
+
+
+
+
+
+
+setMyStockage();
+renderProducts();
 
 
